@@ -59,30 +59,21 @@ var HomePage = React.createClass({
   getInitialState: function() {
     return {employees: []}
   },
-
-  searchHandler: function (key) {
+  searchHandler:function(key) {
     this.props.service.findByName(key).done(function(result) {
-      this.setState({searchKey: key, employees: result})
-    }).bind(this)
-
+      console.log("results==>", result);
+      this.setState({searchKey: key, employees: result});
+    }.bind(this));
   },
-
-  render: function() {
-    var employees = [
-      {firstName: "amanda", lastName: "dai"},
-      {firstName: "rachard", lastName: "xie"},
-      {firstName: "jone", lastName: "li"}
-    ];
-
+  render: function () {
     return (
       <div>
-        <Header text="tongxunlu" />
-        <SearchBar searchHandler={this.searchHandler} />
-        <EmployeeList employees={employees} />
+        <Header text="Employee Directory"/>
+        <SearchBar searchHandler={this.searchHandler}/>
+        <EmployeeList employees={this.state.employees}/>
       </div>
-      )
+      );
   }
-
 });
 
 React.render(<HomePage service={employeeService}/>, document.body);
