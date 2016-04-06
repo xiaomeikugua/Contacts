@@ -61,7 +61,6 @@ var HomePage = React.createClass({
   },
   searchHandler:function(key) {
     this.props.service.findByName(key).done(function(result) {
-      console.log("results==>", result);
       this.setState({searchKey: key, employees: result});
     }.bind(this));
   },
@@ -76,4 +75,35 @@ var HomePage = React.createClass({
   }
 });
 
-React.render(<HomePage service={employeeService}/>, document.body);
+
+var EmployeePage = React.createClass({
+  getInitialState: function() {
+    return {employee: {}};
+  },
+
+  componentDidMount: function() {
+    this.props.service.findById(this.props.employeeId).done(function(result) {
+      this.setState({employee: result});
+    }.bind(this));
+  },
+  render: function() {
+    return (
+      <div>
+        <Header text="Employee Detail" />
+        <h3>{this.state.employee.firstName} {this.state.employee.lastName}</h3>
+        {this.state.employee.title}
+      </div>
+      )
+  }
+});
+
+router.addRoute('', function(){
+  React.render(<HomePage service={employeeService}/>, document.body);
+});
+
+router.addRoute('employees/:id', function(id){
+  React.render(<EmployeePage employeeId={id} service={employeeService}/>, document.body);
+});
+
+router.start();
+
