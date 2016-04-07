@@ -1,7 +1,9 @@
 var Header = React.createClass({
   render: function () {
     return (
-      <h1 className="title">{this.props.text}</h1>
+      <header className="bar bar-nav">
+        <h1 className="title">{this.props.text}</h1>
+      </header>
       )
   }
 });
@@ -19,7 +21,9 @@ var SearchBar = React.createClass({
   },
   render: function() {
     return (
-      <input type="search" value={this.state.symbol} onChange={this.searchHandler}/>
+      <div className="bar bar-standard bar-header-secondary">
+        <input type="search" value={this.state.symbol} onChange={this.searchHandler}/>
+      </div>
       )
   }
 });
@@ -27,9 +31,11 @@ var SearchBar = React.createClass({
 var EmployeeListItem = React.createClass({
   render: function() {
     return (
-      <li>
+      <li className="table-view-cell media">
         <a href={"#employees/" + this.props.employee.id} >
+          <img className="media-object small pull-left" src={'images/' + this.props.employee.firstName + "_" + this.props.employee.lastName + ".jpg"}/>
         {this.props.employee.firstName} {this.props.employee.lastName}
+        <p>{this.props.employee.title}</p>
         </a>
       </li>
       )
@@ -48,7 +54,7 @@ var EmployeeList = React.createClass({
     });
 
     return (
-      <ul>
+      <ul className="table-view">
       {items}
       </ul>
       )
@@ -69,7 +75,9 @@ var HomePage = React.createClass({
       <div>
         <Header text="Employee Directory"/>
         <SearchBar searchHandler={this.searchHandler}/>
-        <EmployeeList employees={this.state.employees}/>
+        <div className="content">
+          <EmployeeList employees={this.state.employees}/>
+        </div>
       </div>
       );
   }
